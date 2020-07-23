@@ -8,10 +8,19 @@ const Header = () => {
     <div>
       <AppBar position="static">
         <Toolbar>
-          <NavLink to="/" className="link">
+          <NavLink
+            exact
+            to="/"
+            className="Navigation-link"
+            activeClassName="Navigation-link-active"
+          >
             Home
           </NavLink>
-          <NavLink to="/users" className="link">
+          <NavLink
+            to="/movies"
+            className="Navigation-link"
+            activeClassName="Navigation-link-active"
+          >
             Movies
           </NavLink>
         </Toolbar>
