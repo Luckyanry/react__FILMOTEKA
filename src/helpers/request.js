@@ -1,17 +1,13 @@
 import axios from "axios";
 
-export const withCredentials = (url) => {
-  return `${url}client_id=${process.env.REACT_APP_CLIENT_ID}&client_secret=${process.env.REACT_APP_CLIENT_SECRET}`;
-};
-
-export const createUserUrl = (search, page, perPage) => {
+export const createGalleryUrl = (query, currentPage, perPage = 12) => {
   return withCredentials(
-    `https://api.github.com/search/users?q=${search}&page=${page}&per_page=${perPage}&`
+    `https://pixabay.com/api/?q=${query}&page=${currentPage}&image_type=photo&orientation=horizontal&per_page=${perPage}&`
   );
 };
 
-export const createSingleUserUrl = (login) => {
-  return withCredentials(`https://api.github.com/users/${login}?`);
+export const withCredentials = (url) => {
+  return `${url}key=${process.env.REACT_APP_KEY}`;
 };
 
 export const request = async (method, url, body = null) => {

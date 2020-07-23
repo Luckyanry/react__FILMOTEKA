@@ -5,6 +5,8 @@ class Movies extends Component {
   state = {
     movies: [],
     search: "",
+    loader: false,
+    error: false,
   };
 
   addSearchQuery = ({ target }) => {
@@ -19,6 +21,23 @@ class Movies extends Component {
     // const { search } = this.state;
     console.log("Can to do search in backend");
   };
+
+  // searchRequest = async (...rest) => {
+  //   const URL = createGalleryUrl(...rest);
+
+  //   try {
+  //     this.loaderToggle(true);
+  //     const result = await request("get", URL);
+  //     this.errorToggle(false);
+  //     return result;
+  //   } catch (error) {
+  //     this.errorToggle(true);
+  //     const message = error.message;
+  //     return message;
+  //   } finally {
+  //     this.loaderToggle(false);
+  //   }
+  // };
 
   render() {
     const { search } = this.state;
