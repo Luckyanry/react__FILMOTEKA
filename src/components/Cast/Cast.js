@@ -1,7 +1,10 @@
 import React from "react";
 import "./Cast.css";
 
-const Cast = ({ credits }) => {
+const Cast = ({ credits, match }) => {
+  const { url } = match;
+  console.log("url", url);
+  console.log("start request");
   return (
     <>
       <p>We don't have any information about cast for this movie</p>

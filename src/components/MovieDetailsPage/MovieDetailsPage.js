@@ -8,6 +8,8 @@ const MovieDetailsPage = ({ match }) => {
   const { path, url } = match;
   const history = useHistory();
 
+  console.log("url", url);
+
   const goBack = () => {
     history.goBack();
   };
