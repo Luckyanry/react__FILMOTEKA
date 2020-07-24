@@ -1,9 +1,15 @@
 import React, { Component } from "react";
-import "./Movies.css";
+import { NavLink } from "react-router-dom";
+import "./MoviesPage.css";
 
-class Movies extends Component {
+class MoviesPage extends Component {
   state = {
-    movies: [],
+    movies: [
+      { id: "id-5", name: "Simpson" },
+      { id: "id-6", name: "Hermione" },
+      { id: "id-7", name: "Clements" },
+      { id: "id-8", name: "Copeland" },
+    ],
     search: "",
     loader: false,
     error: false,
@@ -40,7 +46,9 @@ class Movies extends Component {
   // };
 
   render() {
-    const { search } = this.state;
+    const { search, movies } = this.state;
+    const { match } = this.props;
+
     return (
       <>
         <div className="Searchbar">
@@ -60,9 +68,18 @@ class Movies extends Component {
             </button>
           </form>
         </div>
+        <ul>
+          {movies.map((movie) => (
+            <li key={movie.id}>
+              <NavLink to={`${match.url}/${movie.id}`}>
+                {movie.name}:{movie.id}
+              </NavLink>
+            </li>
+          ))}
+        </ul>
       </>
     );
   }
 }
 
-export default Movies;
+export default MoviesPage;

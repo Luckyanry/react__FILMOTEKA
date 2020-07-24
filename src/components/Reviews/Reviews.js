@@ -1,7 +1,9 @@
 import React from "react";
 import "./Reviews.css";
 
-const Reviews = ({ reviews }) => {
+const Reviews = ({ reviews, match }) => {
+  const { url } = match;
+  console.log("url", url);
   return (
     <>
       <p>Reviews for this movie</p>

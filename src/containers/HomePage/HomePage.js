@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import "./Home.css";
+import "./HomePage.css";
 
 class Home extends Component {
   state = {
@@ -21,11 +21,11 @@ class Home extends Component {
         {movies.length > 0 && (
           <ul>
             {movies.map((movie) => (
-              <>
-                <li key={movie.id}>
-                  <NavLink to={`movies/${movie.id}`}>{movie.name}</NavLink>
-                </li>
-              </>
+              <li key={movie.id}>
+                <NavLink to={`/movies/${movie.id}`}>
+                  {movie.name}:{movie.id}
+                </NavLink>
+              </li>
             ))}
           </ul>
         )}

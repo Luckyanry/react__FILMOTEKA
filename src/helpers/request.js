@@ -1,13 +1,29 @@
 import axios from "axios";
 
-export const createGalleryUrl = (query, currentPage, perPage = 12) => {
-  return withCredentials(
-    `https://pixabay.com/api/?q=${query}&page=${currentPage}&image_type=photo&orientation=horizontal&per_page=${perPage}&`
-  );
+const baseUrl = `https://api.themoviedb.org/3`;
+
+export const searchMoviesUrl = (query) => {
+  return `${baseUrl}/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${query}`;
+};
+
+export const getMovieReviewsUrl = (id) => {
+  return withCredentials(`https://api.themoviedb.org/3/movie/${id}/reviews?`);
+};
+
+export const getMovieCreditsUrl = (id) => {
+  return withCredentials(`https://api.themoviedb.org/3/movie/${id}/credits?`);
+};
+
+export const getMovieDetails = (id) => {
+  return withCredentials(`https://api.themoviedb.org/3/movie/${id}?`);
+};
+
+export const getTrendingMovieUrl = () => {
+  return withCredentials(`https://api.themoviedb.org/3/trending/movie/day?`);
 };
 
 export const withCredentials = (url) => {
-  return `${url}key=${process.env.REACT_APP_KEY}`;
+  return `${url}api_key=${process.env.REACT_APP_API_KEY}`;
 };
 
 export const request = async (method, url, body = null) => {
@@ -16,9 +32,9 @@ export const request = async (method, url, body = null) => {
 };
 
 /*
-https://developers.themoviedb.org/3/trending/get-trending - список самых популярных фильмов на сегодня для создания коллекции на главной странице.
-https://developers.themoviedb.org/3/search/search-movies - поиск кинофильма по ключевому слову на странице фильмов.
-https://developers.themoviedb.org/3/movies/get-movie-details - запрос полной информации о фильме для страницы кинофильма.
-https://developers.themoviedb.org/3/movies/get-movie-credits - запрос информации о актёрском составе для страницы кинофильма.
-https://developers.themoviedb.org/3/movies/get-movie-reviews - запрос обзоров для страницы кинофильма.
+https://api.themoviedb.org/3/trending/movie/day?api_key=<<api_key>> - список самых популярных фильмов на сегодня для создания коллекции на главной странице.
+https://api.themoviedb.org/3/search/movie?api_key=<<api_key>>&query=Max - поиск кинофильма по ключевому слову на странице фильмов.
+https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>> - запрос полной информации о фильме для страницы кинофильма.
+https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key=<<api_key>> - запрос информации о актёрском составе для страницы кинофильма.
+https://api.themoviedb.org/3/movie/{movie_id}/reviews?api_key=<<api_key>> - запрос обзоров для страницы кинофильма.
 */

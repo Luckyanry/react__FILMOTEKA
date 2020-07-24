@@ -1,23 +1,21 @@
 import React from "react";
 import { NavLink, Switch, Route, useHistory } from "react-router-dom";
-import "./MovieDetailsPage.css";
 import Cast from "../Cast/Cast";
 import Reviews from "../Reviews/Reviews";
+import "./MovieDetailsPage.css";
 
 const MovieDetailsPage = ({ match }) => {
-  const { path } = match;
-
+  const { path, url } = match;
   const history = useHistory();
 
   const goBack = () => {
     history.goBack();
   };
-  console.dir(goBack);
 
   return (
     <div>
       <button type="button" onClick={goBack}>
-        <span>&#8617;</span>Go Back
+        <span>&#8617;</span> Go Back
       </button>
       <div>
         <img src="" alt="" />
@@ -39,8 +37,8 @@ const MovieDetailsPage = ({ match }) => {
       <hr />
       <div>
         <h3>Additional information</h3>
-        <NavLink to={`${path}/cast`}>Cast</NavLink>
-        <NavLink to={`${path}/reviews`}>Reviews</NavLink>
+        <NavLink to={`${url}/cast`}>Cast</NavLink>
+        <NavLink to={`${url}/reviews`}>Reviews</NavLink>
       </div>
       <hr />
 
