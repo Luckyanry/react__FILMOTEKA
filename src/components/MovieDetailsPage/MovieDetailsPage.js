@@ -1,57 +1,107 @@
-import React from "react";
-import { NavLink, Switch, Route, useHistory } from "react-router-dom";
+import React, { Component } from "react";
+import { NavLink, Switch, Route } from "react-router-dom";
 import Cast from "../Cast/Cast";
 import Reviews from "../Reviews/Reviews";
 import "./MovieDetailsPage.css";
+import { getMovieDetails, request } from "../../helpers/request";
 
-const MovieDetailsPage = ({ match }) => {
-  const { path, url } = match;
-  const history = useHistory();
-
-  console.log("url", url);
-
-  const goBack = () => {
-    history.goBack();
+class MovieDetailsPage extends Component {
+  state = {
+    movie: [],
+    search: "",
+    from: "",
   };
 
-  return (
-    <div>
-      <button type="button" onClick={goBack}>
-        <span>&#8617;</span> Go Back
-      </button>
-      <div>
-        <img src="" alt="" />
-      </div>
-      <div>
-        <h1>Title</h1>
-        <span>User Score: </span>
-        <h2>Overview</h2>
-        <p>Discription</p>
-        <h3>Genres</h3>
-        {/* {singleMovie && (
-          <ul>
-            {singleMovie.map((genre) => (
-              <li>{genre.name}</li>
-            ))}
-          </ul>
-        )} */}
-      </div>
-      <hr />
-      <div>
-        <h3>Additional information</h3>
-        <NavLink to={`${url}/cast`}>Cast</NavLink>
-        <NavLink to={`${url}/reviews`}>Reviews</NavLink>
-      </div>
-      <hr />
+  async componentDidMount() {
+    const { movieId } = this.props.match.params;
+    const { match } = this.props;
+    console.log("match :>> ", match.url);
 
+    const URL = getMovieDetails(movieId);
+
+    try {
+      const result = await request("get", URL);
+
+      this.setState({
+        movie: result,
+      });
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+    }
+    if (this.props.location.state) {
+      this.setState({
+        search: this.props.location.state.search,
+        from: this.props.location.state.from,
+      });
+    }
+  }
+
+  goBack = (e) => {
+    e.preventDefault();
+    const { from, search } = this.state;
+    if (search) {
+      this.props.history.push({
+        pathname: `${from}`,
+        search: `query=${search}`,
+        state: {
+          search,
+        },
+      });
+    } else {
+      this.props.history.push("/");
+    }
+  };
+
+  render() {
+    const { path, url } = this.props.match;
+    const { movie } = this.state;
+
+    return (
       <div>
-        <Switch>
-          <Route path={`${path}/cast`} component={Cast} />
-          <Route path={`${path}/reviews`} component={Reviews} />
-        </Switch>
+        <button type="button" onClick={this.goBack}>
+          <span>&#8617;</span> Go Back
+        </button>
+        {movie.poster_path && (
+          <div>
+            <img
+              src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+              alt={movie.title}
+            />
+          </div>
+        )}
+        <div>
+          <h1>{movie.title}</h1>
+          <span>User Score: {movie.vote_average}</span>
+          <h2>Overview</h2>
+          <p>{movie.overview}</p>
+          <h3>Genres</h3>
+          {movie.genres && (
+            <ul>
+              {movie.genres.map((genre) => (
+                <li key={genre.id}>{genre.name}</li>
+              ))}
+            </ul>
+          )}
+        </div>
+        <hr />
+        <div>
+          <h3>Additional information</h3>
+          <NavLink to={`${url}/cast`}>Cast</NavLink>
+          <span> </span>
+          <NavLink to={`${url}/reviews`}>Reviews</NavLink>
+        </div>
+        <hr />
+
+        <div>
+          <Switch>
+            <Route path={`${path}/cast`} component={Cast} />
+            <Route path={`${path}/reviews`} component={Reviews} />
+          </Switch>
+        </div>
       </div>
-    </div>
-  );
-};
+    );
+  }
+}
 
 export default MovieDetailsPage;

@@ -21,3 +21,5 @@ function App() {
 }
 
 export default App;
+
+// render={(props) => <MovieDetailsPage {...props} id={id} />}

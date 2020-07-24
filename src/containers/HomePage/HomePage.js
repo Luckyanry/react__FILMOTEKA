@@ -1,16 +1,38 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import "./HomePage.css";
+import { getTrendingMovieUrl, request } from "../../helpers/request";
 
 class Home extends Component {
   state = {
-    movies: [
-      { id: "id-1", name: "Rosie Simpson" },
-      { id: "id-2", name: "Hermione Kline" },
-      { id: "id-3", name: "Eden Clements" },
-      { id: "id-4", name: "Annie Copeland" },
-    ],
+    movies: [],
   };
+
+  async componentDidMount() {
+    const URL = getTrendingMovieUrl();
+
+    try {
+      const result = await request("get", URL);
+      this.setState({
+        movies: [...result.results],
+      });
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+    }
+  }
+
+  // refreshSearchQuery = async () => {
+  //   const URL = getTrendingMovieUrl();
+
+  //   try {
+  //     const result = await request("get", URL);
+  //     return result.results;
+  //   } catch (error) {
+  //     throw new Error(error);
+  //   } finally {
+  //   }
+  // };
 
   render() {
     const { movies } = this.state;
@@ -22,8 +44,15 @@ class Home extends Component {
           <ul>
             {movies.map((movie) => (
               <li key={movie.id}>
-                <NavLink to={`/movies/${movie.id}`}>
-                  {movie.name}:{movie.id}
+                <NavLink
+                  to={{
+                    pathname: `/movies/${movie.id}`,
+                    state: {
+                      from: "/",
+                    },
+                  }}
+                >
+                  {movie.title}
                 </NavLink>
               </li>
             ))}

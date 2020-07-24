@@ -1,28 +1,58 @@
-import React from "react";
+import React, { Component } from "react";
 import "./Cast.css";
+import { request, getMovieCreditsUrl } from "../../helpers/request";
 
-const Cast = ({ credits, match }) => {
-  const { url } = match;
-  console.log("url", url);
-  console.log("start request");
-  return (
-    <>
-      <p>We don't have any information about cast for this movie</p>
-      {/* {credits.length > 0 ? (
-        <ul>
-          {credits.map((credit) => (
-            <li key={credit.id}>
-              <img src={credit.img} alt={credit.about} />
-              <h3>{credit.name}</h3>
-              <p>Character: {credit.role}</p>
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>We don't have any information about cast for this movie</p>
-      )} */}
-    </>
-  );
-};
+class Cast extends Component {
+  state = {
+    credits: [],
+  };
+
+  async componentDidMount() {
+    const { movieId } = this.props.match.params;
+    const URL = getMovieCreditsUrl(movieId);
+
+    try {
+      const result = await request("get", URL);
+      console.log("result.cast", result.cast);
+      this.setState({
+        credits: [...result.cast],
+      });
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+    }
+  }
+
+  render() {
+    const { url, params } = this.props.match;
+    const { credits } = this.state;
+
+    console.log("params", params.movieId);
+    console.log("url", url);
+
+    return (
+      <>
+        {credits.length > 0 ? (
+          <ul>
+            {credits.map((cast) => (
+              <li key={cast.cast_id}>
+                {cast.profile_path && (
+                  <img
+                    src={`https://image.tmdb.org/t/p/original${cast.profile_path}`}
+                    alt={cast.about}
+                  />
+                )}
+                <h3>{cast.name}</h3>
+                <p>Character: {cast.character}</p>
+              </li>
+            ))}
+          </ul>
+        ) : (
+          <p>We don't have any information about cast for this movie</p>
+        )}
+      </>
+    );
+  }
+}
 
 export default Cast;

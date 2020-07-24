@@ -1,19 +1,25 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import "./MoviesPage.css";
+import { request, searchMoviesUrl } from "../../helpers/request";
 
 class MoviesPage extends Component {
   state = {
-    movies: [
-      { id: "id-5", name: "Simpson" },
-      { id: "id-6", name: "Hermione" },
-      { id: "id-7", name: "Clements" },
-      { id: "id-8", name: "Copeland" },
-    ],
+    movies: [],
     search: "",
     loader: false,
     error: false,
   };
+
+  componentDidMount() {
+    if (this.props.location.state) {
+      const { search } = this.props.location.state;
+
+      if (search) {
+        this.searchRequest(search);
+      }
+    }
+  }
 
   addSearchQuery = ({ target }) => {
     const { name, value } = target;
@@ -24,26 +30,23 @@ class MoviesPage extends Component {
 
   handleQueryOnSubmit = (e) => {
     e.preventDefault();
-    // const { search } = this.state;
-    console.log("Can to do search in backend");
+    const { search } = this.state;
+    this.searchRequest(search);
   };
 
-  // searchRequest = async (...rest) => {
-  //   const URL = createGalleryUrl(...rest);
+  searchRequest = async (search) => {
+    const URL = searchMoviesUrl(search);
 
-  //   try {
-  //     this.loaderToggle(true);
-  //     const result = await request("get", URL);
-  //     this.errorToggle(false);
-  //     return result;
-  //   } catch (error) {
-  //     this.errorToggle(true);
-  //     const message = error.message;
-  //     return message;
-  //   } finally {
-  //     this.loaderToggle(false);
-  //   }
-  // };
+    try {
+      const result = await request("get", URL);
+      this.setState({
+        movies: [...result.results],
+      });
+    } catch (error) {
+      throw new Error(error);
+    } finally {
+    }
+  };
 
   render() {
     const { search, movies } = this.state;
@@ -71,8 +74,16 @@ class MoviesPage extends Component {
         <ul>
           {movies.map((movie) => (
             <li key={movie.id}>
-              <NavLink to={`${match.url}/${movie.id}`}>
-                {movie.name}:{movie.id}
+              <NavLink
+                to={{
+                  pathname: `${match.url}/${movie.id}`,
+                  state: {
+                    from: `${match.url}`,
+                    search: `${search}`,
+                  },
+                }}
+              >
+                {movie.title}
               </NavLink>
             </li>
           ))}
