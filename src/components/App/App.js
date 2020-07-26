@@ -1,21 +1,39 @@
-import React from "react";
+import React, { lazy, Suspense } from "react";
 import { Switch, Route, Redirect } from "react-router-dom";
 import Header from "../Header/Header";
-import HomePage from "../../containers/HomePage/HomePage";
-import MoviesPage from "../../containers/MoviesPage/MoviesPage";
-import MovieDetailsPage from "../MovieDetailsPage/MovieDetailsPage";
+import Spinner from "../Loader/Loader";
 import "./App.css";
+
+const HomePage = lazy(() =>
+  import(
+    "../../containers/HomePage/HomePage" /* webpackChunkName: "home-page" */
+  )
+);
+
+const MoviesPage = lazy(() =>
+  import(
+    "../../containers/MoviesPage/MoviesPage" /* webpackChunkName: "movies-page" */
+  )
+);
+
+const MovieDetailsPage = lazy(() =>
+  import(
+    "../MovieDetailsPage/MovieDetailsPage" /* webpackChunkName: "movie-details-page" */
+  )
+);
 
 function App() {
   return (
     <div className="App">
       <Header />
-      <Switch>
-        <Route exact path="/" component={HomePage} />
-        <Route exact path="/movie" component={MoviesPage} />
-        <Route path="/movie/:movieId" component={MovieDetailsPage} />
-        <Redirect to="/" />
-      </Switch>
+      <Suspense fallback={<Spinner />}>
+        <Switch>
+          <Route exact path="/" component={HomePage} />
+          <Route exact path="/movie" component={MoviesPage} />
+          <Route path="/movie/:movieId" component={MovieDetailsPage} />
+          <Redirect to="/" />
+        </Switch>
+      </Suspense>
     </div>
   );
 }

@@ -6,6 +6,7 @@ import "./HomePage.css";
 class Home extends Component {
   state = {
     movies: [],
+    message: "",
   };
 
   async componentDidMount() {
@@ -18,17 +19,19 @@ class Home extends Component {
         movies: [...result.results],
       });
     } catch (error) {
-      throw new Error(error);
-    } finally {
+      const message = error.message;
+      this.setState({ message });
+      // } finally {
     }
   }
 
   render() {
-    const { movies } = this.state;
+    const { movies, message } = this.state;
 
     return (
       <>
         <h1>Trending today</h1>
+        {<h2 className="Error">Whoops, something went wrong: {message}</h2>}
         {movies.length > 0 && (
           <ul>
             {movies.map((movie) => (

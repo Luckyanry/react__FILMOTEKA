@@ -1,9 +1,16 @@
-import React, { Component } from "react";
+import React, { Component, lazy, Suspense } from "react";
 import { NavLink, Switch, Route } from "react-router-dom";
-import Cast from "../Cast/Cast";
-import Reviews from "../Reviews/Reviews";
 import { request, requestMovieUrl } from "../../helpers/request";
+import Spinner from "../Loader/Loader";
 import "./MovieDetailsPage.css";
+
+const Cast = lazy(() =>
+  import("../Cast/Cast" /* webpackChunkName: "movie-cast-page" */)
+);
+
+const Reviews = lazy(() =>
+  import("../Reviews/Reviews" /* webpackChunkName: "movie-reviews-page" */)
+);
 
 class MovieDetailsPage extends Component {
   state = {
@@ -93,10 +100,12 @@ class MovieDetailsPage extends Component {
         <hr />
 
         <div>
-          <Switch>
-            <Route path={`${path}/credits`} component={Cast} />
-            <Route path={`${path}/reviews`} component={Reviews} />
-          </Switch>
+          <Suspense fallback={<Spinner />}>
+            <Switch>
+              <Route path={`${path}/credits`} component={Cast} />
+              <Route path={`${path}/reviews`} component={Reviews} />
+            </Switch>
+          </Suspense>
         </div>
       </div>
     );
