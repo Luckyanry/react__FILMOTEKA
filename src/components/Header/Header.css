@@ -1,9 +1,13 @@
 .Navigation-link {
+  display: block;
   color: #fff;
   font-size: 20px;
   padding: 10px 30px;
   font-weight: bold;
+  text-transform: uppercase;
   text-decoration: none;
+  text-align: center;
+  margin: 0 auto;
 }
 
 .Navigation-link-active {

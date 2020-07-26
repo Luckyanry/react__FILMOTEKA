@@ -2,6 +2,8 @@ import React, { Component, lazy, Suspense } from "react";
 import { NavLink, Switch, Route } from "react-router-dom";
 import { request, requestMovieUrl } from "../../helpers/request";
 import Spinner from "../Loader/Loader";
+import BackArrow from "../../img/back_arrow.svg";
+import defaultImg from "../../img/default-img.jpg";
 import "./MovieDetailsPage.css";
 
 const Cast = lazy(() =>
@@ -17,6 +19,7 @@ class MovieDetailsPage extends Component {
     movie: [],
     search: "",
     from: "",
+    message: "",
   };
 
   async componentDidMount() {
@@ -30,8 +33,8 @@ class MovieDetailsPage extends Component {
         movie: result,
       });
     } catch (error) {
-      throw new Error(error);
-    } finally {
+      const message = error.message;
+      this.setState({ message });
     }
 
     if (this.props.location.state) {
@@ -61,52 +64,74 @@ class MovieDetailsPage extends Component {
 
   render() {
     const { path, url } = this.props.match;
-    const { movie } = this.state;
+    const { movie, message } = this.state;
 
     return (
-      <div>
-        <button type="button" onClick={this.goBack}>
-          <span>&#8617;</span> Go Back
-        </button>
-        {movie.poster_path && (
-          <div>
-            <img
-              src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
-              alt={movie.title}
-            />
-          </div>
+      <div className="Container">
+        {message && (
+          <h2 className="Error">Whoops, something went wrong: {message}</h2>
         )}
-        <div>
-          <h1>{movie.title}</h1>
-          <span>User Score: {movie.vote_average}</span>
-          <h2>Overview</h2>
-          <p>{movie.overview}</p>
-          <h3>Genres</h3>
-          {movie.genres && (
-            <ul>
-              {movie.genres.map((genre) => (
-                <li key={genre.id}>{genre.name}</li>
-              ))}
-            </ul>
-          )}
+        <img
+          src={BackArrow}
+          alt="Back arrow"
+          className="GoBack"
+          onClick={this.goBack}
+        />
+        <div className="MuvieDetailWrapper">
+          <div className="MoviePoster">
+            {movie.poster_path ? (
+              <img
+                src={`https://image.tmdb.org/t/p/original${movie.poster_path}`}
+                alt={movie.title}
+              />
+            ) : (
+              <img src={defaultImg} alt={movie.title} />
+            )}
+          </div>
+
+          <div className="MovieDescription">
+            <h1 className="MovieTitle">{movie.title}</h1>
+            <p className="MovieScore">User Score: {movie.vote_average}</p>
+            <h2 className="MovieOverviewTitle">Overview</h2>
+            <p className="MovieOverview">{movie.overview}</p>
+            <h3 className="MovieGenres">Genres</h3>
+            {movie.genres && (
+              <ul className="MovieList">
+                {movie.genres.map((genre) => (
+                  <li key={genre.id} className="MovieItem">
+                    {genre.name}
+                  </li>
+                ))}
+              </ul>
+            )}
+          </div>
         </div>
         <hr />
-        <div>
-          <h3>Additional information</h3>
-          <NavLink to={`${url}/credits`}>Credits</NavLink>
-          <span> </span>
-          <NavLink to={`${url}/reviews`}>Reviews</NavLink>
+        <div className="SubMenuWrapper">
+          <h3 className="SubMenuTitle">Additional information</h3>
+          <NavLink
+            to={`${url}/credits`}
+            className="SubMenuLink"
+            activeClassName="SubMenuLinkActive"
+          >
+            Credits
+          </NavLink>
+          <NavLink
+            to={`${url}/reviews`}
+            className="SubMenuLink"
+            activeClassName="SubMenuLinkActive"
+          >
+            Reviews
+          </NavLink>
         </div>
         <hr />
 
-        <div>
-          <Suspense fallback={<Spinner />}>
-            <Switch>
-              <Route path={`${path}/credits`} component={Cast} />
-              <Route path={`${path}/reviews`} component={Reviews} />
-            </Switch>
-          </Suspense>
-        </div>
+        <Suspense fallback={<Spinner />}>
+          <Switch>
+            <Route path={`${path}/credits`} component={Cast} />
+            <Route path={`${path}/reviews`} component={Reviews} />
+          </Switch>
+        </Suspense>
       </div>
     );
   }

@@ -2,16 +2,16 @@ import axios from "axios";
 
 const baseUrl = `https://api.themoviedb.org/3`;
 
+export const withCredentials = (url) => {
+  return `${url}api_key=${process.env.REACT_APP_API_KEY}`;
+};
+
 export const searchMoviesUrl = (query) => {
   return withCredentials(`${baseUrl}/search/movie?query=${query}&`);
 };
 
 export const requestMovieUrl = (urlType = "/trending/movie/day") => {
   return withCredentials(`${baseUrl}${urlType}?`);
-};
-
-export const withCredentials = (url) => {
-  return `${url}api_key=${process.env.REACT_APP_API_KEY}`;
 };
 
 export const request = async (method, url, body = null) => {

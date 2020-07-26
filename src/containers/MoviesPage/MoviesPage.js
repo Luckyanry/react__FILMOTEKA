@@ -1,14 +1,14 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
 import { request, searchMoviesUrl } from "../../helpers/request";
+import defaultImg from "../../img/default-img.jpg";
 import "./MoviesPage.css";
 
 class MoviesPage extends Component {
   state = {
     movies: [],
     search: "",
-    loader: false,
-    error: false,
+    message: "",
   };
 
   componentDidMount() {
@@ -56,17 +56,17 @@ class MoviesPage extends Component {
         movies: [...result.results],
       });
     } catch (error) {
-      throw new Error(error);
-    } finally {
+      const message = error.message;
+      this.setState({ message });
     }
   };
 
   render() {
-    const { search, movies } = this.state;
+    const { search, movies, message } = this.state;
     const { match } = this.props;
 
     return (
-      <>
+      <div className="Container">
         <div className="Searchbar">
           <form className="SearchForm" onSubmit={this.handleQueryOnSubmit}>
             <input
@@ -84,24 +84,41 @@ class MoviesPage extends Component {
             </button>
           </form>
         </div>
-        <ul>
-          {movies.map((movie) => (
-            <li key={movie.id}>
-              <NavLink
-                to={{
-                  pathname: `${match.url}/${movie.id}`,
-                  state: {
-                    from: `${match.url}`,
-                    search: `${search}`,
-                  },
-                }}
-              >
-                {movie.title}
-              </NavLink>
-            </li>
-          ))}
-        </ul>
-      </>
+        {message && (
+          <h2 className="Error">Whoops, something went wrong: {message}</h2>
+        )}
+        {movies.length > 0 && (
+          <ul className="MovieList">
+            {movies.map((movie) => (
+              <li key={movie.id} className="MovieCard">
+                <NavLink
+                  to={{
+                    pathname: `${match.url}/${movie.id}`,
+                    state: {
+                      from: `${match.url}`,
+                      search: `${search}`,
+                    },
+                  }}
+                  className="CardLink"
+                >
+                  <div className="CardPoster">
+                    {movie.poster_path ? (
+                      <img
+                        src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
+                        alt={movie.title}
+                      />
+                    ) : (
+                      <img src={defaultImg} alt={movie.title} />
+                    )}
+                  </div>
+                  <h3 className="CardTitle">{movie.title}</h3>
+                  <span className="CardReleaseDate">{movie.release_date}</span>
+                </NavLink>
+              </li>
+            ))}
+          </ul>
+        )}
+      </div>
     );
   }
 }

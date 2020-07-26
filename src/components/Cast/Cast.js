@@ -5,6 +5,7 @@ import "./Cast.css";
 class Cast extends Component {
   state = {
     credits: [],
+    message: "",
   };
 
   async componentDidMount() {
@@ -18,29 +19,33 @@ class Cast extends Component {
         credits: [...result.cast],
       });
     } catch (error) {
-      throw new Error(error);
-    } finally {
+      const message = error.message;
+      this.setState({ message });
     }
   }
 
   render() {
-    const { credits } = this.state;
+    const { credits, message } = this.state;
 
     return (
-      <>
+      <div className="CastWrapper">
+        {message && (
+          <h2 className="Error">Whoops, something went wrong: {message}</h2>
+        )}
         {credits.length > 0 ? (
-          <ul>
+          <ul className="CastList">
             {credits.map((cast) => (
-              <li key={cast.cast_id}>
+              <li key={cast.cast_id} className="CastCard">
                 {cast.profile_path && (
                   <>
-                    <img
-                      src={`https://image.tmdb.org/t/p/original${cast.profile_path}`}
-                      alt={cast.about}
-                    />
-
-                    <h3>{cast.name}</h3>
-                    <p>Character: {cast.character}</p>
+                    <div className="CastProfile">
+                      <img
+                        src={`https://image.tmdb.org/t/p/original${cast.profile_path}`}
+                        alt={cast.about}
+                      />
+                    </div>
+                    <h3 className="CastName">{cast.name}</h3>
+                    <p className="CastCharacter">Character: {cast.character}</p>
                   </>
                 )}
               </li>
@@ -49,7 +54,7 @@ class Cast extends Component {
         ) : (
           <p>We don't have any information about cast for this movie</p>
         )}
-      </>
+      </div>
     );
   }
 }

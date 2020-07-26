@@ -5,6 +5,7 @@ import "./Reviews.css";
 class Reviews extends Component {
   state = {
     reviews: [],
+    message: "",
   };
 
   async componentDidMount() {
@@ -18,16 +19,19 @@ class Reviews extends Component {
         reviews: [...result.results],
       });
     } catch (error) {
-      throw new Error(error);
-    } finally {
+      const message = error.message;
+      this.setState({ message });
     }
   }
 
   render() {
-    const { reviews } = this.state;
+    const { reviews, message } = this.state;
 
     return (
       <>
+        {message && (
+          <h2 className="Error">Whoops, something went wrong: {message}</h2>
+        )}
         {reviews.length > 0 ? (
           <ul>
             {reviews.map((review) => (

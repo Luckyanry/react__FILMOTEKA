@@ -1,6 +1,68 @@
+.Container {
+  width: 100%;
+  min-height: 100vh;
+  background-image: url("../../img/bg-image.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.Title {
+  text-transform: uppercase;
+  text-shadow: 2px 2px 1px #f079a1;
+  padding-top: 30px;
+}
+
 .Error {
   color: red;
   font-size: 25px;
   font-weight: 700;
   text-align: center;
+}
+
+.HomeList {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  height: max-content;
+  margin: 0 auto;
+  padding: 30px;
+}
+
+.HomeCard {
+  display: block;
+  width: 200px;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  background-color: #f7f7f7;
+  transition: 0.6s ease-in-out;
+  margin: 0 20px 20px 0;
+  padding-bottom: 15px;
+}
+
+.HomeCard:hover {
+  transform: scale(1.1);
+  box-shadow: 1px 2px 5px 2px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+.CardLink {
+  display: block;
+  color: #424242;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.CardPoster {
+  display: block;
+  padding: 10px;
+}
+
+.CardTitle {
+  font-size: 16px;
+  padding: 0 15px;
+  margin-bottom: 10px;
 }

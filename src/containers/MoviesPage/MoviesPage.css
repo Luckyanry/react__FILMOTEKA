@@ -1,13 +1,13 @@
 .Searchbar {
+  position: absolute;
+  top: 10%;
+  left: 50%;
+  transform: translateX(-50%);
   width: 400px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
   color: #fff;
   border-radius: 5px;
   box-shadow: 0px 2px 4px -1px rgba(0, 0, 0, 0.2),
     0px 4px 5px 0px rgba(0, 0, 0, 0.14), 0px 1px 10px 0px rgba(0, 0, 0, 0.12);
-  margin: 40px auto 0;
 }
 
 .SearchForm {
@@ -65,4 +65,68 @@
 .SearchForm-input::placeholder {
   font: inherit;
   font-size: 18px;
+}
+
+/* PAGE STYLE */
+.Container {
+  width: 100%;
+  min-height: 100vh;
+  background-image: url("../../img/bg-image.jpg");
+  background-position: center;
+  background-size: cover;
+}
+
+.Error {
+  color: red;
+  font-size: 25px;
+  font-weight: 700;
+  text-align: center;
+}
+
+.MovieList {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  max-width: 1200px;
+  height: max-content;
+  margin: 0 auto;
+  padding: 100px 0 30px;
+}
+
+.MovieCard {
+  display: block;
+  width: 200px;
+  height: auto;
+  border-radius: 5px;
+  box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  background-color: #f7f7f7;
+  transition: 0.6s ease-in-out;
+  margin: 0 20px 20px 0;
+  padding-bottom: 15px;
+}
+
+.MovieCard:hover {
+  transform: scale(1.1);
+  box-shadow: 1px 2px 5px 2px rgba(0, 0, 0, 0.2),
+    0px 1px 1px 0px rgba(0, 0, 0, 0.14), 0px 2px 1px -1px rgba(0, 0, 0, 0.12);
+  cursor: pointer;
+}
+
+.CardLink {
+  display: block;
+  color: #424242;
+  text-decoration: none;
+  vertical-align: middle;
+}
+
+.CardPoster {
+  display: block;
+  padding: 10px;
+}
+
+.CardTitle {
+  font-size: 16px;
+  padding: 0 15px;
+  margin-bottom: 10px;
 }
