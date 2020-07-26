@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import { request, requestMovieUrl } from "../../helpers/request";
 import "./Reviews.css";
-import { request, getMovieReviewsUrl } from "../../helpers/request";
 
 class Reviews extends Component {
   state = {
@@ -8,12 +8,12 @@ class Reviews extends Component {
   };
 
   async componentDidMount() {
-    const { movieId } = this.props.match.params;
-    const URL = getMovieReviewsUrl(movieId);
+    const { url } = this.props.match;
+    const URL = requestMovieUrl(url);
 
     try {
       const result = await request("get", URL);
-      console.log("result.revies", result.results);
+
       this.setState({
         reviews: [...result.results],
       });
@@ -24,8 +24,8 @@ class Reviews extends Component {
   }
 
   render() {
-    // const { params } = this.props.match;
     const { reviews } = this.state;
+
     return (
       <>
         {reviews.length > 0 ? (

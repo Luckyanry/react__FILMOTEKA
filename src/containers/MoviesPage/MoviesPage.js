@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
-import "./MoviesPage.css";
 import { request, searchMoviesUrl } from "../../helpers/request";
+import "./MoviesPage.css";
 
 class MoviesPage extends Component {
   state = {
@@ -14,6 +14,7 @@ class MoviesPage extends Component {
   componentDidMount() {
     if (this.props.location.state) {
       const { search } = this.props.location.state;
+      this.setState({ search });
 
       if (search) {
         this.searchRequest(search);
@@ -31,7 +32,19 @@ class MoviesPage extends Component {
   handleQueryOnSubmit = (e) => {
     e.preventDefault();
     const { search } = this.state;
-    this.searchRequest(search);
+
+    if (search) {
+      this.searchRequest(search);
+
+      this.props.history.push({
+        search: `query=${search}`,
+        state: {
+          search,
+        },
+      });
+    } else {
+      return;
+    }
   };
 
   searchRequest = async (search) => {

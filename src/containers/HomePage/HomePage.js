@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import { NavLink } from "react-router-dom";
+import { request, requestMovieUrl } from "../../helpers/request";
 import "./HomePage.css";
-import { getTrendingMovieUrl, request } from "../../helpers/request";
 
 class Home extends Component {
   state = {
@@ -9,10 +9,11 @@ class Home extends Component {
   };
 
   async componentDidMount() {
-    const URL = getTrendingMovieUrl();
+    const URL = requestMovieUrl();
 
     try {
       const result = await request("get", URL);
+
       this.setState({
         movies: [...result.results],
       });
@@ -21,18 +22,6 @@ class Home extends Component {
     } finally {
     }
   }
-
-  // refreshSearchQuery = async () => {
-  //   const URL = getTrendingMovieUrl();
-
-  //   try {
-  //     const result = await request("get", URL);
-  //     return result.results;
-  //   } catch (error) {
-  //     throw new Error(error);
-  //   } finally {
-  //   }
-  // };
 
   render() {
     const { movies } = this.state;
@@ -46,7 +35,7 @@ class Home extends Component {
               <li key={movie.id}>
                 <NavLink
                   to={{
-                    pathname: `/movies/${movie.id}`,
+                    pathname: `/movie/${movie.id}`,
                     state: {
                       from: "/",
                     },

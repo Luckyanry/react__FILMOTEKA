@@ -1,6 +1,6 @@
 import React, { Component } from "react";
+import { request, requestMovieUrl } from "../../helpers/request";
 import "./Cast.css";
-import { request, getMovieCreditsUrl } from "../../helpers/request";
 
 class Cast extends Component {
   state = {
@@ -8,12 +8,12 @@ class Cast extends Component {
   };
 
   async componentDidMount() {
-    const { movieId } = this.props.match.params;
-    const URL = getMovieCreditsUrl(movieId);
+    const { url } = this.props.match;
+    const URL = requestMovieUrl(url);
 
     try {
       const result = await request("get", URL);
-      console.log("result.cast", result.cast);
+
       this.setState({
         credits: [...result.cast],
       });
@@ -24,11 +24,7 @@ class Cast extends Component {
   }
 
   render() {
-    const { url, params } = this.props.match;
     const { credits } = this.state;
-
-    console.log("params", params.movieId);
-    console.log("url", url);
 
     return (
       <>
@@ -37,13 +33,16 @@ class Cast extends Component {
             {credits.map((cast) => (
               <li key={cast.cast_id}>
                 {cast.profile_path && (
-                  <img
-                    src={`https://image.tmdb.org/t/p/original${cast.profile_path}`}
-                    alt={cast.about}
-                  />
+                  <>
+                    <img
+                      src={`https://image.tmdb.org/t/p/original${cast.profile_path}`}
+                      alt={cast.about}
+                    />
+
+                    <h3>{cast.name}</h3>
+                    <p>Character: {cast.character}</p>
+                  </>
                 )}
-                <h3>{cast.name}</h3>
-                <p>Character: {cast.character}</p>
               </li>
             ))}
           </ul>

@@ -1,6 +1,6 @@
 import React from "react";
-import { AppBar, Toolbar } from "@material-ui/core";
 import { NavLink } from "react-router-dom";
+import { AppBar, Toolbar } from "@material-ui/core";
 import "./Header.css";
 
 const Header = () => {
@@ -17,7 +17,7 @@ const Header = () => {
             Home
           </NavLink>
           <NavLink
-            to="/movies"
+            to="/movie"
             className="Navigation-link"
             activeClassName="Navigation-link-active"
           >

@@ -2,8 +2,8 @@ import React, { Component } from "react";
 import { NavLink, Switch, Route } from "react-router-dom";
 import Cast from "../Cast/Cast";
 import Reviews from "../Reviews/Reviews";
+import { request, requestMovieUrl } from "../../helpers/request";
 import "./MovieDetailsPage.css";
-import { getMovieDetails, request } from "../../helpers/request";
 
 class MovieDetailsPage extends Component {
   state = {
@@ -13,11 +13,8 @@ class MovieDetailsPage extends Component {
   };
 
   async componentDidMount() {
-    const { movieId } = this.props.match.params;
-    const { match } = this.props;
-    console.log("match :>> ", match.url);
-
-    const URL = getMovieDetails(movieId);
+    const { url } = this.props.match;
+    const URL = requestMovieUrl(url);
 
     try {
       const result = await request("get", URL);
@@ -29,6 +26,7 @@ class MovieDetailsPage extends Component {
       throw new Error(error);
     } finally {
     }
+
     if (this.props.location.state) {
       this.setState({
         search: this.props.location.state.search,
@@ -40,6 +38,7 @@ class MovieDetailsPage extends Component {
   goBack = (e) => {
     e.preventDefault();
     const { from, search } = this.state;
+
     if (search) {
       this.props.history.push({
         pathname: `${from}`,
@@ -87,7 +86,7 @@ class MovieDetailsPage extends Component {
         <hr />
         <div>
           <h3>Additional information</h3>
-          <NavLink to={`${url}/cast`}>Cast</NavLink>
+          <NavLink to={`${url}/credits`}>Credits</NavLink>
           <span> </span>
           <NavLink to={`${url}/reviews`}>Reviews</NavLink>
         </div>
@@ -95,7 +94,7 @@ class MovieDetailsPage extends Component {
 
         <div>
           <Switch>
-            <Route path={`${path}/cast`} component={Cast} />
+            <Route path={`${path}/credits`} component={Cast} />
             <Route path={`${path}/reviews`} component={Reviews} />
           </Switch>
         </div>

@@ -3,23 +3,11 @@ import axios from "axios";
 const baseUrl = `https://api.themoviedb.org/3`;
 
 export const searchMoviesUrl = (query) => {
-  return `${baseUrl}/search/movie?api_key=${process.env.REACT_APP_API_KEY}&query=${query}`;
+  return withCredentials(`${baseUrl}/search/movie?query=${query}&`);
 };
 
-export const getMovieReviewsUrl = (id) => {
-  return withCredentials(`https://api.themoviedb.org/3/movie/${id}/reviews?`);
-};
-
-export const getMovieCreditsUrl = (id) => {
-  return withCredentials(`https://api.themoviedb.org/3/movie/${id}/credits?`);
-};
-
-export const getMovieDetails = (id) => {
-  return withCredentials(`https://api.themoviedb.org/3/movie/${id}?`);
-};
-
-export const getTrendingMovieUrl = () => {
-  return withCredentials(`https://api.themoviedb.org/3/trending/movie/day?`);
+export const requestMovieUrl = (urlType = "/trending/movie/day") => {
+  return withCredentials(`${baseUrl}${urlType}?`);
 };
 
 export const withCredentials = (url) => {
@@ -38,3 +26,19 @@ https://api.themoviedb.org/3/movie/{movie_id}?api_key=<<api_key>> - запрос
 https://api.themoviedb.org/3/movie/{movie_id}/credits?api_key=<<api_key>> - запрос информации о актёрском составе для страницы кинофильма.
 https://api.themoviedb.org/3/movie/{movie_id}/reviews?api_key=<<api_key>> - запрос обзоров для страницы кинофильма.
 */
+
+// export const getMovieReviewsUrl = (id) => {
+//   return withCredentials(`https://api.themoviedb.org/3/movie/${id}/reviews?`);
+// };
+
+// export const getMovieCreditsUrl = (id) => {
+//   return withCredentials(`https://api.themoviedb.org/3/movie/${id}/credits?`);
+// };
+
+// export const getMovieDetails = (id) => {
+//   return withCredentials(`https://api.themoviedb.org/3/movie/${id}?`);
+// };
+
+// export const getTrendingMovieUrl = () => {
+//   return withCredentials(`https://api.themoviedb.org/3/trending/movie/day?`);
+// };

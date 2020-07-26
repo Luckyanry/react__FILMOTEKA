@@ -12,8 +12,8 @@ function App() {
       <Header />
       <Switch>
         <Route exact path="/" component={HomePage} />
-        <Route exact path="/movies" component={MoviesPage} />
-        <Route path="/movies/:movieId" component={MovieDetailsPage} />
+        <Route exact path="/movie" component={MoviesPage} />
+        <Route path="/movie/:movieId" component={MovieDetailsPage} />
         <Redirect to="/" />
       </Switch>
     </div>
@@ -21,5 +21,3 @@ function App() {
 }
 
 export default App;
-
-// render={(props) => <MovieDetailsPage {...props} id={id} />}
