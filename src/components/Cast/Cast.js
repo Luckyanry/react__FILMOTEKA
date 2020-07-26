@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { request, requestMovieUrl } from "../../helpers/request";
+import defaultProfile from "../../img/default-profile.png";
 import "./Cast.css";
 
 class Cast extends Component {
@@ -36,18 +37,18 @@ class Cast extends Component {
           <ul className="CastList">
             {credits.map((cast) => (
               <li key={cast.cast_id} className="CastCard">
-                {cast.profile_path && (
-                  <>
-                    <div className="CastProfile">
-                      <img
-                        src={`https://image.tmdb.org/t/p/original${cast.profile_path}`}
-                        alt={cast.about}
-                      />
-                    </div>
-                    <h3 className="CastName">{cast.name}</h3>
-                    <p className="CastCharacter">Character: {cast.character}</p>
-                  </>
-                )}
+                <div className="CastProfile">
+                  {cast.profile_path ? (
+                    <img
+                      src={`https://image.tmdb.org/t/p/w200${cast.profile_path}`}
+                      alt={cast.about}
+                    />
+                  ) : (
+                    <img src={defaultProfile} alt={cast.about} />
+                  )}
+                </div>
+                <h3 className="CastName">{cast.name}</h3>
+                <p className="CastCharacter">Character: {cast.character}</p>
               </li>
             ))}
           </ul>

@@ -45,9 +45,9 @@ class Home extends Component {
                       from: "/",
                     },
                   }}
-                  className="CardLink"
+                  className="HomeCardLink"
                 >
-                  <div className="CardPoster">
+                  <div className="HomeCardPoster">
                     {movie.poster_path ? (
                       <img
                         src={`https://image.tmdb.org/t/p/w200${movie.poster_path}`}
@@ -57,8 +57,10 @@ class Home extends Component {
                       <img src={defaultImg} alt={movie.title} />
                     )}
                   </div>
-                  <h3 className="CardTitle">{movie.title}</h3>
-                  <span className="CardReleaseDate">{movie.release_date}</span>
+                  <h3 className="HomeCardTitle">{movie.title}</h3>
+                  <span className="HomeCardReleaseDate">
+                    {movie.release_date}
+                  </span>
                 </NavLink>
               </li>
             ))}

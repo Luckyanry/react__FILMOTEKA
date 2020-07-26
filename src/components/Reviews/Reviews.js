@@ -28,23 +28,23 @@ class Reviews extends Component {
     const { reviews, message } = this.state;
 
     return (
-      <>
+      <div className="ReviewsWrapper">
         {message && (
           <h2 className="Error">Whoops, something went wrong: {message}</h2>
         )}
         {reviews.length > 0 ? (
-          <ul>
+          <ul className="ReviewsList">
             {reviews.map((review) => (
-              <li key={review.id}>
-                <h3>Author: {review.author}</h3>
-                <p>{review.content}</p>
+              <li key={review.id} className="ReviewsItem">
+                <h3 className="ReviewsTitle">Author: {review.author}</h3>
+                <p className="ReviewsDesc">{review.content}</p>
               </li>
             ))}
           </ul>
         ) : (
           <p>We don't have any reviews for this movie</p>
         )}
-      </>
+      </div>
     );
   }
 }

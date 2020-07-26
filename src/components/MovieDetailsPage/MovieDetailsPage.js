@@ -91,12 +91,14 @@ class MovieDetailsPage extends Component {
 
           <div className="MovieDescription">
             <h1 className="MovieTitle">{movie.title}</h1>
-            <p className="MovieScore">User Score: {movie.vote_average}</p>
+            {movie.vote_average > 0 && (
+              <p className="MovieScore">User Score: {movie.vote_average}</p>
+            )}
             <h2 className="MovieOverviewTitle">Overview</h2>
             <p className="MovieOverview">{movie.overview}</p>
-            <h3 className="MovieGenres">Genres</h3>
+            {movie.genres && <h3 className="MovieGenres">Genres</h3>}
             {movie.genres && (
-              <ul className="MovieList">
+              <ul className="MovieGenresList">
                 {movie.genres.map((genre) => (
                   <li key={genre.id} className="MovieItem">
                     {genre.name}

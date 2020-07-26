@@ -1,11 +1,3 @@
-.Container {
-  width: 100%;
-  min-height: 100vh;
-  background-image: url("../../img/bg-image.jpg");
-  background-position: center;
-  background-size: cover;
-}
-
 .GoBack {
   position: absolute;
   width: 35px;
@@ -28,7 +20,6 @@
 
 .MuvieDetailWrapper {
   display: flex;
-  /* justify-content: flex-start; */
   max-width: 1200px;
   padding-bottom: 30px;
   text-align: start;
@@ -72,7 +63,7 @@
   margin-bottom: 10px;
 }
 
-.MovieList {
+.MovieGenresList {
   font-size: 16px;
 }
 
