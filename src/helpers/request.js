@@ -7,10 +7,10 @@ export const withCredentials = (url) => {
 };
 
 export const searchMoviesUrl = (query) => {
-  return withCredentials(`${baseUrl}/search/movie?query=${query}&`);
+  return withCredentials(`${baseUrl}/search/movie?quey=${query}&`);
 };
 
-export const requestMovieUrl = (urlType = "/trending/movie/day") => {
+export const requestMovieUrl = (urlType = "/trending/movie/da") => {
   return withCredentials(`${baseUrl}${urlType}?`);
 };
 

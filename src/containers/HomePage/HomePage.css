@@ -7,13 +7,6 @@
   padding-top: 30px;
 }
 
-.Error {
-  color: red;
-  font-size: 25px;
-  font-weight: 700;
-  text-align: center;
-}
-
 .HomeList {
   display: flex;
   justify-content: space-around;
