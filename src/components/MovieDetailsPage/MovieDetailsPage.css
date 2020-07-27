@@ -27,7 +27,7 @@
 
 .MoviePoster {
   display: block;
-  width: 400px;
+  max-width: 320px;
   height: 100%;
   margin-right: 50px;
 }
@@ -35,7 +35,7 @@
 .MovieDescription {
   display: block;
   max-width: 800px;
-  padding: 30px 85px 0 0;
+  padding: 30px 105px 0 0;
 }
 
 .MovieTitle {
